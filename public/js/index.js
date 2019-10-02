@@ -52,7 +52,7 @@ $(async () => {
 	for (let i = 0; i < countries.length; i++) {
 		// Add a new column if needed
 		if (i % buttonsPerRow === 0) {
-			$("#country").append(colSnippet.clone());
+			$("#country > #selection").append(colSnippet.clone());
 		}
 
 		// Add button to column
@@ -70,29 +70,47 @@ $(async () => {
 		*/
 
 		// Add button to last column
-		$("#country").find("div:last-child").append(snip);
+		$("#country > #selection").find("div:last-child").append(snip);
 	}
 
 	// Adjust width of buttons
-	let longest = Math.max(...[...$("#country > div > button")].map(e => $(e).width()));
-	$("#country > div > button").width(longest);
+	let longest = Math.max(...[...$("#country > #selection > div > button")].map(e => $(e).width()));
+	$("#country > #selection > div > button").width(longest);
 
 	// Add events to buttons
-	$("#country > div").children("button").click((ev) => {
+	$("#country > #selection > div").children("button").click((ev) => {
 		// Downot allow changing countries if the VPN is active
 		if ($("#vpnToggle > button[value=\"1\"]").hasClass("hidden")) {
 			return;
 		}
 
-		$("#country > div").children("button").each((i, e) => {
+		$("#country > #selection > div").children("button").each((i, e) => {
 			$(e).toggleClass("active", e.isEqualNode(ev.target));
 		});
+	});
+
+	// Add events to search input
+	$("#country > #header > input").on("input", (ev) => {
+		let searchText = $(ev.target).val().trim().toLowerCase();
+		console.log(searchText, searchText.length);
+
+		if (searchText.length <= 0) {
+			$("#country > #selection > div > button").css("display", "initial");
+		} else {
+			$("#country > #selection > div > button").each((i, e) => {
+				if ($(e).text().toLowerCase().includes(searchText)) {
+					$(e).css("display", "initial");
+				} else {
+					$(e).css("display", "none");
+				}
+			});
+		}
 	});
 
 	// Add events to toggle buttons
 	$("#vpnToggle").children("button").click((ev) => {
 		// Nothing is selected, do not allow enabling
-		if (!$("#country > div > button.active").get(0)) {
+		if (!$("#country > #selection > div > button.active").get(0)) {
 			return;
 		}
 

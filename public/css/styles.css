@@ -12,6 +12,10 @@ snippets {
 	max-height: 80%;
 }
 
+#country > #header {
+	display: flex;
+}
+
 #vpnToggle {
 	display: flex;
 }
