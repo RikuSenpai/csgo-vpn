@@ -44,6 +44,8 @@ $(async () => {
 		}
 	}).filter((flag) => {
 		return flag.name;
+	}).sort((a, b) => {
+		return a.name.localeCompare(b.name);
 	}));
 
 	// Add buttons to page
