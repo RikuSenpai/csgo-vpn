@@ -119,7 +119,9 @@ $(async () => {
 		});
 
 		// Ensure using only double equals here for type conversion
-		let type = $(ev.target).val() == true;
-		console.log(type);
+		window.ipcRenderer.send("vpn", {
+			enabled: $(ev.target).val() == true,
+			country: $("#country > #selection > div > button.active").val()
+		});
 	});
 });

@@ -1,5 +1,5 @@
 // Modules
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 
@@ -79,4 +79,12 @@ app.on("activate", () => {
 	}
 
 	createWindow();
+});
+
+ipcMain.on("vpn", (ev, args) => {
+	if (!mainWindow) {
+		return;
+	}
+
+	console.log(args);
 });
