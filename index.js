@@ -5,28 +5,28 @@ const url = require("url");
 
 // Global variables
 let mainWindow = null;
-let applicationMenu = [
-	{
-		label: "View",
-		submenu: [
-			{
-				label: "Reload",
-				accelerator: "CmdOrCtrl+R",
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						focusedWindow.reload();
-					}
-				}
-			},
-			{
-				label: "Toggle Developer Tools",
-				accelerator: process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						focusedWindow.webContents.toggleDevTools();
-					}
+
+async function createWindow() {
+	// Setup menu
+	let menu = Menu.buildFromTemplate([
+		{
+			label: "Reload",
+			accelerator: "CmdOrCtrl+R",
+			click(item, focusedWindow) {
+				if (focusedWindow) {
+					focusedWindow.reload();
 				}
 			}
+		},
+		{
+			label: "Toggle Developer Tools",
+			accelerator: process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
+			click(item, focusedWindow) {
+				if (focusedWindow) {
+					focusedWindow.webContents.toggleDevTools();
+				}
+			}
+		}
 		]
 	}
 ];
