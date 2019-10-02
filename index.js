@@ -38,8 +38,8 @@ async function createWindow() {
 
 	// Create the browser window
 	mainWindow = new BrowserWindow({
-		width: 770,
-		height: 600,
+		width: 770 + 16,
+		height: 600 + 58,
 		webPreferences: {
 			preload: path.join(__dirname, "public", "js", "preload.js")
 		},
