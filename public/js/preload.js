@@ -14,9 +14,6 @@ fs.readdir(flagsPath, (err, files) => {
 		throw err;
 	}
 
-	// Currently the images are not used anyways
-	// but maybe in the future I will add high resolution images
-
 	window.flags = files.filter(f => f.endsWith(".png")).map((file) => {
 		let parts = file.split(".");
 		parts.pop();
