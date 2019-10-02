@@ -1,9 +1,4 @@
-const countries = [
-	{
-		name: "None",
-		code: undefined
-	}
-];
+const countries = [];
 const countryOverrides = [
 	{
 		code: "GB",
@@ -74,11 +69,6 @@ $(async () => {
 		snip.css("background-image", "url(\"../images/flags/" + countries[i].code + ".png\")");
 		*/
 
-		// Add "active" class if we are the first button (None)
-		if (i === 0) {
-			snip.addClass("active");
-		}
-
 		// Add button to last column
 		$("#country").find("div:last-child").append(snip);
 	}
@@ -89,6 +79,11 @@ $(async () => {
 
 	// Add events to buttons
 	$("#country > div").children("button").click((ev) => {
+		// Downot allow changing countries if the VPN is active
+		if ($("#vpnToggle > button[value=\"1\"]").hasClass("hidden")) {
+			return;
+		}
+
 		$("#country > div").children("button").each((i, e) => {
 			$(e).toggleClass("active", e.isEqualNode(ev.target));
 		});
@@ -96,6 +91,11 @@ $(async () => {
 
 	// Add events to toggle buttons
 	$("#vpnToggle").children("button").click((ev) => {
+		// Nothing is selected, do not allow enabling
+		if (!$("#country > div > button.active").get(0)) {
+			return;
+		}
+
 		$("#vpnToggle").children("button").each((i, e) => {
 			$(e).toggleClass("hidden", e.isEqualNode(ev.target));
 		});
