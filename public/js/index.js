@@ -36,7 +36,7 @@ $(async () => {
 	// Add overrides
 	window.countryList.overwrite(countryOverrides);
 
-	// Combine our list of flags with the above hardcoded
+	// Format to a list of country names and codes
 	countries.push(...window.flags.map((flag) => {
 		return {
 			name: window.countryList.getName(flag),
