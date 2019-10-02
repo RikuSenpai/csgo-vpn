@@ -50,13 +50,7 @@ $(async () => {
 
 	// Add buttons to page
 	let btnSnippet = $("snippets > snippet[name=\"CountrySelection\"]").children();
-	let colSnippet = $("snippets > snippet[name=\"CountryColumn\"]").children();
 	for (let i = 0; i < countries.length; i++) {
-		// Add a new column if needed
-		if (i % buttonsPerRow === 0) {
-			$("#country > #selection").append(colSnippet.clone());
-		}
-
 		// Add button to column
 		let snip = btnSnippet.clone();
 		snip.text(countries[i].name);
@@ -72,21 +66,19 @@ $(async () => {
 		*/
 
 		// Add button to last column
-		$("#country > #selection").find("div:last-child").append(snip);
+		$("#country > #selection").append(snip);
 	}
 
-	// Adjust width of buttons
-	let longest = Math.max(...[...$("#country > #selection > div > button")].map(e => $(e).width()));
-	$("#country > #selection > div > button").width(longest);
-
 	// Add events to buttons
-	$("#country > #selection > div").children("button").click((ev) => {
+	$("#country > #selection").children("button").click((ev) => {
 		// Downot allow changing countries if the VPN is active
 		if ($("#vpnToggle > button[value=\"1\"]").hasClass("hidden")) {
 			return;
 		}
 
-		$("#country > #selection > div").children("button").each((i, e) => {
+		$("#country > #header").css("background-image", "url(\"../images/flags/" + $(ev.target).val() + ".png\")");
+
+		$("#country > #selection").children("button").each((i, e) => {
 			$(e).toggleClass("active", e.isEqualNode(ev.target));
 		});
 	});
@@ -94,12 +86,10 @@ $(async () => {
 	// Add events to search input
 	$("#country > #header > input").on("input", (ev) => {
 		let searchText = $(ev.target).val().trim().toLowerCase();
-		console.log(searchText, searchText.length);
-
 		if (searchText.length <= 0) {
-			$("#country > #selection > div > button").css("display", "initial");
+			$("#country > #selection > button").css("display", "initial");
 		} else {
-			$("#country > #selection > div > button").each((i, e) => {
+			$("#country > #selection > button").each((i, e) => {
 				if ($(e).text().toLowerCase().includes(searchText)) {
 					$(e).css("display", "initial");
 				} else {
@@ -112,7 +102,7 @@ $(async () => {
 	// Add events to toggle buttons
 	$("#vpnToggle").children("button").click((ev) => {
 		// Nothing is selected, do not allow enabling
-		if (!$("#country > #selection > div > button.active").get(0)) {
+		if (!$("#country > #selection > button.active").get(0)) {
 			return;
 		}
 
@@ -123,7 +113,7 @@ $(async () => {
 		// Ensure using only double equals here for type conversion
 		window.ipcRenderer.send("vpn", {
 			enabled: $(ev.target).val() == true,
-			country: $("#country > #selection > div > button.active").val()
+			country: $("#country > #selection > button.active").val()
 		});
 	});
 });

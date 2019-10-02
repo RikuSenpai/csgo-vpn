@@ -6,14 +6,25 @@ snippets {
 	display: none;
 }
 
-#country {
+#country > #selection {
 	overflow: scroll;
 	overflow-x: hidden;
-	max-height: 80%;
+	max-height: 75%;
 }
 
 #country > #header {
 	display: flex;
+	background-repeat: no-repeat;
+	background-position-x: 37.5%;
+	background-position-y: 50%;
+}
+
+#country > .btn-group {
+	display: grid;
+}
+
+#country > .btn-group > button {
+	height: 42px;
 }
 
 #vpnToggle {
