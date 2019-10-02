@@ -99,6 +99,14 @@ $(async () => {
 		}
 	});
 
+	// Add events to "Select Country" title
+	$("#country > #header > h2").click((ev) => {
+		let top = $("#country > #selection > button.active").offset().top;
+		$("#country > #selection").animate({
+			scrollTop: top - 150
+		}, 500);
+	});
+
 	// Add events to toggle buttons
 	$("#vpnToggle").children("button").click((ev) => {
 		// Nothing is selected, do not allow enabling
