@@ -27,13 +27,7 @@ async function createWindow() {
 				}
 			}
 		}
-		]
-	}
-];
-
-async function createWindow() {
-	// Setup menu
-	let menu = Menu.buildFromTemplate(applicationMenu);
+	]);
 	Menu.setApplicationMenu(menu);
 
 	// Create the browser window
