@@ -1,0 +1,23 @@
+snippets {
+	display: none;
+}
+
+.hidden {
+	display: none;
+}
+
+#country {
+	overflow: scroll;
+	overflow-x: hidden;
+	max-height: 80%;
+}
+
+#vpnToggle {
+	display: flex;
+}
+
+#vpnToggle > h2 {
+	position: relative;
+	top: 5px;
+	padding-right: 10px;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "csgo-vpn",
+  "version": "1.0.0",
+  "description": "Have your CSGO client think you are from a different country.",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeepFelix/csgo-vpn.git"
+  },
+  "keywords": [
+    "csgo",
+    "vpn"
+  ],
+  "author": "BeepFelix",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BeepFelix/csgo-vpn/issues"
+  },
+  "homepage": "https://github.com/BeepFelix/csgo-vpn#readme",
+  "devDependencies": {
+    "electron": "^6.0.11"
+  },
+  "dependencies": {
+    "country-list": "^2.2.0"
+  }
+}
