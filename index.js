@@ -91,7 +91,7 @@ ipcMain.on("vpn", async (ev, args) => {
 		await interceptor.start(args.country, mainWindow);
 	} else {
 		mainWindow.webContents.send("status", {
-			message: "Ping checking...",
+			message: "Stopping...",
 			button: false
 		});
 
