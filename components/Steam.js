@@ -64,6 +64,8 @@ module.exports = class Steam {
 			args.push("-websocket", "-websocketignorecertissues");
 		}
 
+		args.push("-noverifyfiles");
+
 		this.steamProcess = childProcess.execFile(filePath, args);
 	}
 
