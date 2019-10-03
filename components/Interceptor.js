@@ -205,7 +205,7 @@ module.exports = class Interceptor extends Events {
 
 			this.mainWindow.webContents.send("status", {
 				message: "Connected",
-				button: false
+				button: true
 			});
 		});
 	}
