@@ -2,6 +2,15 @@ const { dialog } = require("electron");
 const path = require("path");
 const fs = require("fs");
 const VDF = require("simple-vdf");
+const hardcodedCMs = [
+	"CM01-FRA.cm.steampowered.com:27021", "cm4-fra1.cm.steampowered.com:443", "CM03-FRA.cm.steampowered.com:27020",
+	"cm4-fra1.cm.steampowered.com:27020", "CM01-FRA.cm.steampowered.com:443", "CM01-FRA.cm.steampowered.com:27020",
+	"cm4-fra1.cm.steampowered.com:27021", "cm2-fra1.cm.steampowered.com:443", "cm2-fra1.cm.steampowered.com:27021",
+	"cm2-fra1.cm.steampowered.com:27020", "CM03-FRA.cm.steampowered.com:27021", "CM03-FRA.cm.steampowered.com:443",
+	"CM02-LUX.cm.steampowered.com:443", "CM01-LUX.cm.steampowered.com:443", "CM01-LUX.cm.steampowered.com:27021",
+	"cm3-sto1.cm.steampowered.com:27020", "CM02-LUX.cm.steampowered.com:27020", "cm4-sto1.cm.steampowered.com:27020",
+	"cm4-sto1.cm.steampowered.com:443", "cm4-sto1.cm.steampowered.com:27021"
+];
 
 module.exports = class Config {
 	constructor() {
@@ -118,6 +127,20 @@ module.exports = class Config {
 			let objPath = this.getConfigWebsocketsObjectPath(parsed);
 			if (!objPath) {
 				return false;
+			}
+
+			// Ensure we always write at least some CM sockets and not only one
+			// If there is only one its most likely our 127.0.0.1 one which we dont want to write
+			if (this.backupCMSockets.length <= 1) {
+				this.backupCMSockets = {};
+
+				for (let cm of hardcodedCMs) {
+					this.backupCMSockets[cm] = {
+						LastLoadValue: 0,
+						LastPingTimestamp: Math.round(Date.now() / 1000),
+						LastPingValue: 10
+					}
+				}
 			}
 
 			eval("parsed[\"" + objPath.join("\"][\"") + "\"] = " + JSON.stringify(this.backupCMSockets));
