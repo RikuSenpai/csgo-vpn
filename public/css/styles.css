@@ -36,3 +36,7 @@ snippets {
 	top: 5px;
 	padding-right: 10px;
 }
+
+#vpnToggle > h2:last-child {
+	left: 10%;
+}

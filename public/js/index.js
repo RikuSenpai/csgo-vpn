@@ -125,3 +125,20 @@ $(async () => {
 		});
 	});
 });
+
+// Reply from main
+window.ipcRenderer.on("vpn", (ev, args) => {
+	// The vpn start has been cancelled so lets force it to be disabled
+	if (args.canceled) {
+		$("#vpnToggle > button.btn-danger").click();
+		$("#vpnToggle > button").removeAttr("disabled");
+	}
+});
+
+window.ipcRenderer.on("status", (ev, args) => {
+	if (args.message) {
+		$("#vpnToggle > h2 > span").text(args.message);
+	}
+
+	$("#vpnToggle > button")[!args.button ? "attr" : "removeAttr"]("disabled", "");
+});

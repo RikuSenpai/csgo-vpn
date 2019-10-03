@@ -2,9 +2,11 @@
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
+const Interceptor = require("./components/Interceptor.js");
 
 // Global variables
 let mainWindow = null;
+let interceptor = new Interceptor();
 
 async function createWindow() {
 	// Setup menu
@@ -75,10 +77,29 @@ app.on("activate", () => {
 	createWindow();
 });
 
-ipcMain.on("vpn", (ev, args) => {
+ipcMain.on("vpn", async (ev, args) => {
 	if (!mainWindow) {
 		return;
 	}
 
-	console.log(args);
+	if (args.enabled) {
+		mainWindow.webContents.send("status", {
+			message: "Starting...",
+			button: false
+		});
+
+		await interceptor.start(args.country, mainWindow);
+	} else {
+		mainWindow.webContents.send("status", {
+			message: "Ping checking...",
+			button: false
+		});
+
+		await interceptor.stop();
+
+		mainWindow.webContents.send("status", {
+			message: "Waiting",
+			button: true
+		});
+	}
 });
