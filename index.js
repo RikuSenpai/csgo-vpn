@@ -103,3 +103,7 @@ ipcMain.on("vpn", async (ev, args) => {
 		});
 	}
 });
+
+process.on("unhandledRejection", (reason, promise) => {
+	console.error(reason, promise);
+});

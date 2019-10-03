@@ -6,6 +6,7 @@ const https = require("https");
 const detect = require("detect-port");
 const Config = require("./Config.js");
 const Steam = require("./Steam.js");
+const ConnectionHelper = require("./ConnectionHelper.js");
 
 module.exports = class Interceptor extends Events {
 	constructor() {
@@ -120,12 +121,12 @@ module.exports = class Interceptor extends Events {
 			});
 
 			this.clientSocket.on("message", (data) => {
-				console.log("<<< " + data.toString("hex").toUpperCase());
-
 				if (!this.serverSocket || this.serverSocket.readyState !== this.serverSocket.OPEN) {
 					serverSocketBacklog.push(data);
 					return;
 				}
+
+				// We don't have to check any Client -> Server packets as those are irrelevant to us
 
 				this.serverSocket.send(data);
 			});
@@ -169,15 +170,21 @@ module.exports = class Interceptor extends Events {
 			// We got an incoming connection, connect to a Steam server
 			this.serverSocket = new WebSocket(goodCM);
 
-			this.serverSocket.on("message", (data) => {
-				console.log(">>> " + data.toString("hex").toUpperCase());
-
+			this.serverSocket.on("message", async (data) => {
 				if (!this.clientSocket || this.clientSocket.readyState !== this.clientSocket.OPEN) {
 					clientSocketBacklog.push(data);
 					return;
 				}
 
-				this.clientSocket.send(data);
+				// Check Server -> Client packets here
+				let modified = await ConnectionHelper.HandleNetMessage(data, this.country);
+				if (Array.isArray(modified)) {
+					for (let mod of modified) {
+						this.clientSocket.send(mod || data);
+					}
+				} else {
+					this.clientSocket.send(modified || data);
+				}
 			});
 
 			this.serverSocket.on("error", (err) => {
@@ -185,6 +192,7 @@ module.exports = class Interceptor extends Events {
 			});
 
 			this.serverSocket.on("open", () => {
+				// We don't have to check any Server -> Client packets on startup as those cannot include any GC Country data
 				while (serverSocketBacklog.length > 0) {
 					this.serverSocket.send(serverSocketBacklog.shift());
 				}

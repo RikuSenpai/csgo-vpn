@@ -1,0 +1,40 @@
+message CMsgClientWelcome {
+	message Location {
+		optional float latitude = 1;
+		optional float longitude = 2;
+		optional string country = 3;
+	}
+
+	optional uint32 version = 1;
+	optional bytes game_data = 2;
+	repeated .CMsgSOCacheSubscribed outofdate_subscribed_caches = 3;
+	repeated .CMsgSOCacheSubscriptionCheck uptodate_subscribed_caches = 4;
+	optional .CMsgClientWelcome.Location location = 5;
+	optional bytes game_data2 = 6;
+	optional uint32 rtime32_gc_welcome_timestamp = 7;
+	optional uint32 currency = 8;
+	optional uint32 balance = 9;
+	optional string balance_url = 10;
+	optional string txn_country_code = 11;
+}
+
+message CMsgSOIDOwner {
+	optional uint32 type = 1;
+	optional uint64 id = 2;
+}
+
+message CMsgSOCacheSubscriptionCheck {
+	optional fixed64 version = 2;
+	optional .CMsgSOIDOwner owner_soid = 3;
+}
+
+message CMsgSOCacheSubscribed {
+	message SubscribedType {
+		optional int32 type_id = 1;
+		repeated bytes object_data = 2;
+	}
+
+	repeated .CMsgSOCacheSubscribed.SubscribedType objects = 2;
+	optional fixed64 version = 3;
+	optional .CMsgSOIDOwner owner_soid = 4;
+}
