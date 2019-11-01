@@ -12,6 +12,8 @@ module.exports = class Modifier {
 			return false;
 		}
 
+		console.log("Received ClientFromGC, handling...");
+
 		// Do some special encoding/decoding here for protobufs
 		let gcMsgType = body.msgtype & ~PROTO_MASK;
 		let gcTargetJobID;
@@ -22,6 +24,8 @@ module.exports = class Modifier {
 		if (gcMsgType !== 4004) {
 			return false;
 		}
+
+		console.log("Received CMsgClientWelcome");
 
 		if (body.msgtype & PROTO_MASK) {
 			// This is a protobuf message
@@ -39,6 +43,9 @@ module.exports = class Modifier {
 			let decoded = Protobufs.decodeProto(Protobufs.Protos.csgo.CMsgClientWelcome, gcBody);
 			if (decoded.txn_country_code) {
 				decoded.txn_country_code = country.toUpperCase();
+				console.log("Modified txn_country_code to " + country.toUpperCase());
+			} else {
+				console.log("No txn_country_code value");
 			}
 
 			let modified = Protobufs.encodeProto(Protobufs.Protos.csgo.CMsgClientWelcome, decoded);
