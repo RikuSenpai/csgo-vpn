@@ -14,7 +14,7 @@ It allows you to let your CSGO client think you are from a different country to,
 
 1. Install [NodeJS]()
 2. Download this repository **and unzip it**
-2. Open the `run.cmd` file
+3. Open the `run.cmd` file
 
 ***There are currently no electron binaries available***
 
