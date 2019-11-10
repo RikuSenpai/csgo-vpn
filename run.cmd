@@ -1,2 +1,1 @@
-npm install --from-lock-file
-npm run start
+npm install --from-lock-file && call "node_modules/.bin/electron.cmd" .
