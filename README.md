@@ -8,7 +8,7 @@ It allows you to let your CSGO client think you are from a different country to,
 
 # Example bypass case restriction:
 
-![](https://i.imgur.com/vmycR0g.gif)
+![](https://i.imgur.com/ccoLmOY.gif)
 
 # Installation
 
